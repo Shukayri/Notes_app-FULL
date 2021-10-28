@@ -2,7 +2,7 @@ package com.example.fullnotesapp
 
 import androidx.room.*
 @Dao
-interface NotesDao {
+interface Notat {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNote(note: NoteData)

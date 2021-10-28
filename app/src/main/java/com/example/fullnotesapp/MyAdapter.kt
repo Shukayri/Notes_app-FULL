@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.note_row.view.*
 
 class MyAdapter(
     private val activity: MainActivity,
-    private val items: ArrayList<NoteData>): RecyclerView.Adapter<MyAdapter.ItemViewHolder>() {
+    private val items: List<NoteData>): RecyclerView.Adapter<MyAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -28,7 +28,7 @@ class MyAdapter(
         val item = items[position]
 
         holder.itemView.apply {
-            tv.text = item.noteText
+            tv.text = item.notesText
             if (position % 2 == 0) {
                 notes.setBackgroundColor(Color.GRAY)
             }
@@ -42,4 +42,8 @@ class MyAdapter(
     }
 
     override fun getItemCount() = items.size
+
+    fun update(){
+        notifyDataSetChanged()
+    }
 }

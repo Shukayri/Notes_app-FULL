@@ -1,20 +1,20 @@
 package com.example.fullnotesapp
 
 
-class NotesDatabase(private val notesDao: NotesDao) {
+class MotherDb(private val notat: Notat) {
 
-    val getNotes: List<NoteData> = notesDao.getNotes()
+    val getNotes: List<NoteData> = notat.getNotes()
 
     suspend fun addNote(note: NoteData){
-        notesDao.addNote(note)
+        notat.addNote(note)
     }
 
     suspend fun updateNote(note: NoteData){
-        notesDao.updateNote(note)
+        notat.updateNote(note)
     }
 
     suspend fun deleteNote(note: NoteData){
-        notesDao.deleteNote(note)
+        notat.deleteNote(note)
     }
 
 }
