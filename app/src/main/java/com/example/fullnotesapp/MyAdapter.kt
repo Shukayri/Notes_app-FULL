@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.note_row.view.*
 
-class MyAdapter(
-    private val activity: MainActivity,
-    private val items: List<NoteData>): RecyclerView.Adapter<MyAdapter.ItemViewHolder>() {
-
+class MyAdapter(private val activity: MainActivity): RecyclerView.Adapter<MyAdapter.ItemViewHolder>() {
+    private var items =  emptyList<NoteData>()
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAdapter.ItemViewHolder {
@@ -36,14 +34,15 @@ class MyAdapter(
                 activity.raiseDialog(item.id)
             }
             delIcon.setOnClickListener {
-                activity.deleteNote(item.id)
+                activity.myViewModel.deleteNote(item.id)
             }
         }
     }
 
     override fun getItemCount() = items.size
 
-    fun update(){
+    fun update(notes: List<NoteData>){
+        this.items = notes
         notifyDataSetChanged()
     }
 }

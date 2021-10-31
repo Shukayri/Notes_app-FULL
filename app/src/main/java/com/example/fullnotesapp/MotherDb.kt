@@ -1,9 +1,11 @@
 package com.example.fullnotesapp
 
+import androidx.lifecycle.LiveData
+
 
 class MotherDb(private val notat: Notat) {
 
-    val getNotes: List<NoteData> = notat.getNotes()
+    val getNotes: LiveData<List<NoteData>> = notat.getNotes()
 
     suspend fun addNote(note: NoteData){
         notat.addNote(note)
