@@ -1,46 +1,93 @@
 package com.example.fullnotesapp
 
 import android.app.Application
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MyViewModel(application: Application): AndroidViewModel(application) {
-    private val rep: MotherDb
-    private val notes: LiveData<List<NoteData>>
+    //private val rep: MotherDb
 
-    init {
-        val noteDao = SQLdb.getDatabase(application).noteDao()
-        rep = MotherDb(noteDao)
-        notes = rep.getNotes
-    }
+    private val notes: MutableLiveData<List<NoteData>> = MutableLiveData()
+    private var db = Firebase.firestore
+    //init {
+        //val noteDao = SQLdb.getDatabase(application).noteDao()
+      //  rep = MotherDb(noteDao)
+    //    notes = rep.getNotes
+  //  }
 
-    fun getNotes(): LiveData<List<NoteData>>{
+    fun getNotes(): LiveData<List<NoteData>> {
         return notes
     }
 
-    fun postNote(noteText: String){
+
+    private fun getData(){
+        db.collection("notes")
+            .get()
+            .addOnSuccessListener { result ->
+                val tempNotes = arrayListOf<NoteData>()
+                for (document in result) {
+                    document.data.map {
+                            (key, value) -> tempNotes.add(NoteData(document.id, value.toString()))
+                    }
+                }
+                notes.postValue(tempNotes)
+            }
+            .addOnFailureListener { exception ->
+                Log.w("MainActivity", "Error getting documents.", exception)
+            }}
+
+    fun postNote(text: NoteData){
         CoroutineScope(Dispatchers.IO).launch {
-            delay(1000)
-            rep.addNote(NoteData(0, noteText))
+            //delay(1000)
+            val newNote = hashMapOf("noteText" to text.notesText,)
+            db.collection("notes").add(newNote)
+            getData()
+            //rep.addNote(NoteData(0, noteText))
 
         }
     }
 
-    fun editNote(noteID: Int, noteText: String){
+    fun editNote(noteID: String, text: String){
         CoroutineScope(Dispatchers.IO).launch {
-            rep.updateNote(NoteData(noteID,noteText))
-        }
-    }
+            db.collection("notes")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        if(document.id == noteID){
+                            db.collection("notes").document(noteID).update("noteText", text)
+                        }
+                    }
+                    getData()
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("MainActivity", "Error getting documents.", exception)
+                }
+    }}
 
-    fun deleteNote(noteID: Int){
+    fun deleteNote(noteID: String){
         CoroutineScope(Dispatchers.IO).launch {
-            rep.deleteNote(NoteData(noteID,""))
+            db.collection("notes")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        if(document.id == noteID){
+                            db.collection("notes").document(noteID).delete()
+                        }
+                    }
+                    getData()
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("MainActivity", "Error getting documents.", exception)
+                }
+
+            //rep.deleteNote(NoteData(noteID,""))
         }
     }
 }

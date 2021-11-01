@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "548026184124",
+    "project_id": "fullnotesapp",
+    "storage_bucket": "fullnotesapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548026184124:android:0f2ef1379980bc95db7bb9",
+        "android_client_info": {
+          "package_name": "com.example.fullnotesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548026184124-26i76tat60951nn8hnhh8jv5s7fgpi6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCURVNUi6pW2cE6M_gCO6ftD_VGmarak9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548026184124-26i76tat60951nn8hnhh8jv5s7fgpi6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

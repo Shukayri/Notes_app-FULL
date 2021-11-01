@@ -10,34 +10,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var rvNotes: RecyclerView
     private lateinit var mainRV: MyAdapter
     private lateinit var editText: EditText
     private lateinit var submitBtn: Button
-    private lateinit var notesList: List<NoteData>
+    private lateinit var notesList: ArrayList<NoteData>
     lateinit var myViewModel: MyViewModel
-
+    //private var db: FirebaseFirestore = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        title = "Notebook"
 
         myViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
         myViewModel.getNotes().observe(this, { notes -> mainRV.update(notes) })
+        //myViewModel = ViewModelProvider().get(MyViewModel::class.java)
 
 
-        notesList = listOf()
+        notesList = arrayListOf()
         editText = findViewById(R.id.tvNewNote)
         submitBtn = findViewById(R.id.btSubmit)
 
         submitBtn.setOnClickListener {
             if (editText.text.isNotEmpty()) {
-                myViewModel.postNote(editText.text.toString())
+                myViewModel.postNote(NoteData("",editText.text.toString()))
                 editText.text.clear()
                 editText.clearFocus()
             } else {
@@ -56,14 +55,15 @@ class MainActivity : AppCompatActivity() {
         rvNotes.layoutManager = LinearLayoutManager(this)
     }
 
-    fun raiseDialog(id: Int) {
+    fun raiseDialog(id: String) {
         val dialogBuilder = AlertDialog.Builder(this)
         val updatedNote = EditText(this)
         updatedNote.hint = "Enter new text"
         dialogBuilder
             .setCancelable(false)
             .setPositiveButton("Save", DialogInterface.OnClickListener { _, _ ->
-                myViewModel.editNote(id, updatedNote.text.toString())
+                //db.collection("notes").document(id).update("noteText", notesList)
+            myViewModel.editNote(id, updatedNote.text.toString())
             })
             .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, _ ->
                 dialog.cancel()
