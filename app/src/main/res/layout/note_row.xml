@@ -21,12 +21,12 @@
         android:id="@+id/editIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/edit_icon" />
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
         android:id="@+id/delIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/delete_icon" />
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </LinearLayout>

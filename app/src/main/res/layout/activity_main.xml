@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#32174d"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -36,12 +37,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter message" />
+            android:hint="Enter message"
+            android:shadowColor="@color/black"
+            android:textColor="#7CB342"
+            android:textColorHighlight="#673AB7"
+            android:textColorHint="#E91E63" />
 
         <Button
             android:id="@+id/btSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+
+            android:background="#3F51B5"
+            android:text="Submit"
+            android:textColor="@color/black"
+            app:icon="@android:drawable/ic_menu_send"
+            app:iconTint="#000000" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
